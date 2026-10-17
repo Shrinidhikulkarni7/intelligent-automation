@@ -2,7 +2,7 @@
 
 ## Credential-free demonstration
 
-Clone your public repository or this repository. Use Python 3.11+, Git and Terraform; the verified version is 1.16.4. Python code runs directly; package installation is optional (`python3 -m pip install -e .`). No third-party Python runtime package is required.
+Clone your public repository or this repository. Use macOS/Linux (or WSL), Python 3.11+, Git and Terraform; the verified version is 1.16.4. Python code runs directly; package installation is optional (`python3 -m pip install -e .`). No third-party Python runtime package is required.
 
 ```sh
 git clone https://github.com/Shrinidhikulkarni7/intelligent-automation.git

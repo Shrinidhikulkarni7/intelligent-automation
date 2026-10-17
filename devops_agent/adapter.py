@@ -60,6 +60,10 @@ def generate(req, current, *, adapter, fixture=None, limits=Limits()):
         answer = folder / "answer.json"
         env = {key: val for key, val in os.environ.items() if key in ("PATH", "HOME", "TMPDIR", "CODEX_HOME", "CODEX_API_KEY", "OPENAI_API_KEY", "SSL_CERT_FILE", "HTTPS_PROXY", "HTTP_PROXY", "NO_PROXY")}
         argv = ["codex", "exec", "--ignore-user-config", "--ephemeral", "--skip-git-repo-check", "--sandbox", "read-only",
+                "--disable", "shell_tool", "--disable", "unified_exec", "--disable", "apps", "--disable", "plugins",
+                "--disable", "multi_agent", "--disable", "code_mode", "--disable", "code_mode_host",
+                "--disable", "browser_use", "--disable", "computer_use", "--disable", "view_image", "--disable", "image_generation",
+                "--enable", "skip_host_skill_discovery", "-c", 'web_search="disabled"',
                 "-c", 'approval_policy="never"', "-c", f'model_reasoning_effort="{limits.reasoning}"',
                 "--output-schema", str(folder / "schema.json"), "--output-last-message", str(answer), "-"]
         for attempt in range(1, limits.attempts + 1):
@@ -67,5 +71,6 @@ def generate(req, current, *, adapter, fixture=None, limits=Limits()):
             code, _, _ = run(argv, cwd=folder, data=prompt, timeout=limits.timeout, limit=limits.output_bytes, env=env)
             if code == 0 and answer.exists():
                 return read_json(answer, limits.output_bytes), {"adapter": "codex", "live": True, "attempts": attempt,
+                    "tool_policy":"shell, exec, apps, plugins, agents, browser, computer, images and web search disabled; host skill discovery skipped",
                     "limits": {"timeout_seconds_per_attempt": limits.timeout, "output_bytes": limits.output_bytes, "reasoning": limits.reasoning}}
         raise Rejected("agent failed; no proposal created (authentication, service or schema failure); no fixture substituted")

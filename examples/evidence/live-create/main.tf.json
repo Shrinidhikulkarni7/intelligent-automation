@@ -3,7 +3,7 @@
     "labels": {
       "Environment": "dev",
       "ManagedBy": "reviewed-devops",
-      "Purpose": "development uploads"
+      "Purpose": "Development uploads"
     }
   },
   "module": {

@@ -110,6 +110,8 @@ class AdaptersAndProcesses(unittest.TestCase):
             self.assertEqual(runner.call_count,3) # auth check + two inference attempts
             argv=runner.call_args.args[0]
             self.assertIn('read-only',argv)
+            self.assertIn('shell_tool',argv)
+            self.assertIn('skip_host_skill_discovery',argv)
             self.assertNotIn('danger-full-access',argv)
             self.assertNotIn('GH_TOKEN',runner.call_args.kwargs['env'])
 
@@ -202,8 +204,8 @@ class Diagnosis(unittest.TestCase):
         self.assertEqual(len(result['confirmed']),1)
 
     def test_redaction(self):
-        value=sanitize('token=abcdef Bearer abcdef https://private.example/log /Users/someone/repo ghp_'+'A'*30)
-        for secret in ('abcdef','private.example','someone','ghp_'): self.assertNotIn(secret,value)
+        value=sanitize('token=abcdef AWS_SECRET_ACCESS_KEY=abcdef Bearer abcdef https://private.example/log /Users/someone/repo ghp_'+'A'*30+' github_pat_'+'B'*30+' -----BEGIN RSA PRIVATE KEY-----\nnot-public\n-----END RSA PRIVATE KEY-----')
+        for secret in ('abcdef','private.example','someone','ghp_','github_pat_','not-public'): self.assertNotIn(secret,value)
 
     def test_known_fix_actually_passes(self):
         env={'PATH':os.environ['PATH'],'DEMO_REGION':'us-east-1'}

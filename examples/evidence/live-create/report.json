@@ -1,11 +1,13 @@
 {
-  "assumptions": [],
+  "assumptions": [
+    "The private_bucket module implements encryption, public access blocking, and lifecycle retention."
+  ],
   "base_digest": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
   "branch": "proposal/dev-app-create",
   "diagnostics": [
-    "Public no-cloud proposal; encryption and public-access blocking depend on the private_bucket module implementation."
+    "Public proposal only; no cloud changes performed."
   ],
-  "proposal_digest": "f47baeba33b18529504702a309be8c3aa2ea0b8e65c74c85ca9a1a9401700e64",
+  "proposal_digest": "cfe06b259388241ee1777f77ad90f26072555b28b3f6a34afe1a870861b78cf0",
   "provenance": {
     "adapter": "codex",
     "attempts": 1,
@@ -14,7 +16,8 @@
       "reasoning": "low",
       "timeout_seconds_per_attempt": 90
     },
-    "live": true
+    "live": true,
+    "tool_policy": "shell, exec, apps, plugins, agents, browser, computer, images and web search disabled; host skill discovery skipped"
   },
   "request": {
     "environment": "dev",

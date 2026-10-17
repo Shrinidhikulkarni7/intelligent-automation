@@ -37,7 +37,7 @@ The natural-language entry point has an intentionally narrow grammar. “Create 
 
 The adapter receives only that request and the selected public configuration. It returns status, a serialized Terraform JSON document, assumptions, required inputs and diagnostics. The orchestrator records whether the result came from a fixture or a live call. Missing CLI authentication produces `integration not configured`; it never substitutes a canned response.
 
-I verified the local Codex CLI integration with the owner's configured login. The adapter uses schema-constrained output, a temporary working directory, read-only sandbox, disabled approval requests and bounded subprocess I/O. Its default inference settings are one attempt, ninety seconds, low reasoning effort and a 48 KB output cap. Those are practical limits, not a verified monetary ceiling. Account-side limits remain necessary.
+I verified the local Codex CLI integration with the owner's configured login. The adapter uses schema-constrained output, a temporary working directory, read-only sandbox, disabled approval requests and bounded subprocess I/O. Shell/exec, apps/plugins, sub-agent, code-mode, browser/computer, image and web tools are explicitly disabled in the pinned CLI, and host skill discovery is skipped. I exercised those settings in the final live call. Its default inference settings are one attempt, ninety seconds, low reasoning effort and a 48 KB output cap. Those are practical limits, not a verified monetary ceiling. Account-side limits remain necessary.
 
 The local CLI also remains a trust consideration. Its authentication is real, and a read-only sandbox is not proof that every host-readable file is isolated. This reference uses public context only. A dedicated account or isolated runner is the next boundary for broader use.
 
@@ -53,7 +53,7 @@ This is the actual accepted live-generated configuration:
     "labels": {
       "Environment": "dev",
       "ManagedBy": "reviewed-devops",
-      "Purpose": "development uploads"
+      "Purpose": "Development uploads"
     }
   },
   "module": {
@@ -72,7 +72,7 @@ This is the actual accepted live-generated configuration:
 }
 ```
 
-The [checked-in result and provenance](https://github.com/Shrinidhikulkarni7/intelligent-automation/tree/main/examples/evidence/live-create) preserve that output. The proposal digest is `f47baeba33b18529504702a309be8c3aa2ea0b8e65c74c85ca9a1a9401700e64`. It is evidence of an observed adapter result, not a promise that another model call will produce identical bytes.
+The [checked-in result and provenance](https://github.com/Shrinidhikulkarni7/intelligent-automation/tree/main/examples/evidence/live-create) preserve that output. The proposal digest is `cfe06b259388241ee1777f77ad90f26072555b28b3f6a34afe1a870861b78cf0`. It is evidence of an observed adapter result, not a promise that another model call will produce identical bytes.
 
 The agent authored the whole document, including locals, tags and an output. The policy permits that structure while recognizing only two exact references: `${local.labels}` and `${module.app.bucket_id}`. Tags must be bounded literal public text. Other expressions, providers, data sources, resources, module sources and file paths are rejected.
 
@@ -103,7 +103,7 @@ if before != after:
     raise Rejected("retention update changed unrelated configuration")
 ```
 
-A proposal that also changes tags, identity or module source fails. The report shows seven days before and three afterward. A reviewer must still consider the data consequence: shorter expiration can remove existing objects sooner even when the infrastructure action is an update.
+A proposal that also changes tags, identity or module source fails. The report shows seven days before and three afterward; [PR #2](https://github.com/Shrinidhikulkarni7/intelligent-automation/pull/2) contains the proposed change. A reviewer must still consider the data consequence: shorter expiration can remove existing objects sooner even when the infrastructure action is an update.
 
 ## What validation actually establishes
 

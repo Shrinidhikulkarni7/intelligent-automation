@@ -11,7 +11,7 @@ The agent authors configuration and explains its assumptions. Python controls sc
 
 ## Start without credentials
 
-Requires Python 3.11+, Git, and Terraform 1.7–1.x (verified with 1.16.4). There are no Python runtime dependencies. Run from the repository root:
+Requires macOS/Linux (or WSL), Python 3.11+, Git, and Terraform 1.7–1.x (verified with 1.16.4). There are no Python runtime dependencies. Run from the repository root:
 
 ```sh
 python3 scripts/check.py

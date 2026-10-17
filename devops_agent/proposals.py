@@ -112,13 +112,19 @@ def publish(bundle, repo, *, source=ROOT, remote=False):
                     raise Rejected("existing proposal contains unrelated edits; manual reconciliation required")
                 if code == 0 and json.loads(content) == value:
                     return {"status":"existing_pull_request", "branch":branch, "revision":old, "url":prs[0]["url"]}
-            checked(["git", "push", "origin", f"HEAD:refs/heads/{branch}", f"--force-with-lease=refs/heads/{branch}:{old}"], clone)
+            try:
+                checked(["git", "push", "origin", f"HEAD:refs/heads/{branch}", f"--force-with-lease=refs/heads/{branch}:{old}"], clone)
+            except Rejected as error:
+                raise Rejected("publication incomplete: push outcome uncertain; inspect remote branch before retrying") from error
             body = clone / "pr-body.md"
             body.write_text(pr_body(report))
-            if prs:
-                checked(["gh", "pr", "edit", str(prs[0]["number"]), "--repo", repo, "--body-file", str(body)], clone)
-                url = prs[0]["url"]
-            else:
-                url = checked(["gh", "pr", "create", "--repo", repo, "--base", "main", "--head", branch, "--title", f"Propose {req['operation']} for {report['summary']['target']}", "--body-file", str(body)], clone)
+            try:
+                if prs:
+                    checked(["gh", "pr", "edit", str(prs[0]["number"]), "--repo", repo, "--body-file", str(body)], clone)
+                    url = prs[0]["url"]
+                else:
+                    url = checked(["gh", "pr", "create", "--repo", repo, "--base", "main", "--head", branch, "--title", f"Propose {req['operation']} for {report['summary']['target']}", "--body-file", str(body)], clone)
+            except Rejected as error:
+                raise Rejected("publication incomplete: branch pushed, PR creation/update unverified; inspect GitHub before retrying") from error
             return {"status":"pull_request", "branch":branch, "revision":sha, "url":url,
                     "validation":"inspect PR checks; automation token event behavior depends on token type and GitHub version"}

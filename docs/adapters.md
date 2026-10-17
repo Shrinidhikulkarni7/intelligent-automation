@@ -37,7 +37,7 @@ python3 -m devops_agent.cli propose \
   --output-bytes 48000 --reasoning low
 ```
 
-The adapter calls `codex exec` with a JSON output schema, read-only sandbox, approval policy `never`, `--ignore-user-config`, `--ephemeral`, a temporary working directory, and an allowlisted process environment. No cloud or GitHub credential is forwarded. Authentication and provider networking remain the CLI's responsibility.
+The adapter calls `codex exec` with a JSON output schema, read-only sandbox, approval policy `never`, `--ignore-user-config`, `--ephemeral`, a temporary working directory, and an allowlisted process environment. Shell/exec, apps, plugins, sub-agents, code mode, browser/computer, image and web tools are explicitly disabled in the pinned CLI; host skill discovery is skipped. These settings were exercised in a live call. No cloud or GitHub credential is forwarded. Authentication and provider networking remain the CLI's responsibility.
 
 These are practical inference controls, **not a hard token or monetary budget**. Codex CLI does not expose a verified per-call billing ceiling in this implementation. Use provider-side account limits; do not claim bounded cost from a timeout alone. Model/tool behavior is nondeterministic, and the local sandbox does not prove isolation from every host-readable file. A dedicated runner/account is recommended before adapting this pattern beyond public inputs.
 
