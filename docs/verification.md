@@ -7,6 +7,7 @@ Observed on 2026-10-17. Repository code and stored sanitized evidence are author
 | Python policy/orchestration suite | 36 tests passed locally |
 | Terraform module tests | 3 passed with mocked AWS provider |
 | Generated roots: create fixture, retention fixture, recorded live output | 1 mocked test each passed; fmt and validate passed |
+| Actual checked-in development root | fmt, validate and mocked test passed; creation PR also checks its new actual root |
 | actionlint 1.7.11 | All workflows passed |
 | Live Codex CLI 0.163.0, local owner login | Three public calls passed policy; final call used explicit tool restrictions and generated locals, Purpose label and output |
 | Intentionally failing local step | Exit 2 with the documented configuration error |
@@ -31,4 +32,6 @@ Hosted PR and workflow results are added here only after observing the actual ru
 - Both [create PR validation 39006092234](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006092234) and [retention PR validation 39006090795](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006090795) passed.
 - [Retention PR #2](https://github.com/Shrinidhikulkarni7/intelligent-automation/pull/2) changes only the existing managed configuration path. Repeated publications returned `existing_pull_request` for both #1 and #2, without creating another PR.
 - Repository variable names were inspected: neither privileged opt-in variable was configured. No cloud or hosted agent-key workflow was enabled.
-- A later hosted run exposed a temporary Git pack-directory cleanup error. Automatic maintenance and detached GC are disabled for temporary publication clones and fixture repositories; current hosted checks must confirm the fix.
+- A later hosted run exposed a temporary Git pack-directory cleanup error. Automatic maintenance and detached GC are disabled for temporary publication clones and fixture repositories; follow-up main and both PR runs passed.
+- Follow-up validation after the temporary-Git fix passed on [main](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006769520) and both [proposal](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006789791) [branches](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006795367).
+- The final check command also validates/tests actual checkout roots, in addition to regression fixtures and the recorded live result: seven mocked runs on main, eight on the creation PR.

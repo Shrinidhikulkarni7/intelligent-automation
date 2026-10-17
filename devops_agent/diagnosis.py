@@ -1,4 +1,5 @@
 """Evidence-linked deterministic diagnosis; unknown errors yield no patch."""
+import difflib
 import hashlib
 import io
 import json
@@ -81,7 +82,9 @@ def diagnose(evidence):
             if "run: python3 examples/failing_check.py" in text and "DEMO_REGION" not in text:
                 result["confirmed"].append({"finding":"The inspected local workflow omits DEMO_REGION; the local reproduction exited 2.", "evidence":[".github/workflows/intentional-failure.yml", "examples/failing_check.py", *refs]})
                 result["missing_evidence"] = ["No hosted workflow run was inspected in this local reproduction."]
-                result["proposed_patch"] = {"path":".github/workflows/intentional-failure.yml", "change":"Set env: {DEMO_REGION: us-east-1} on the configuration-check step.", "automatic_application":False}
+                patched = text.replace("        run: python3 examples/failing_check.py", "        env:\n          DEMO_REGION: us-east-1\n        run: python3 examples/failing_check.py", 1)
+                diff = "".join(difflib.unified_diff(text.splitlines(keepends=True), patched.splitlines(keepends=True), fromfile="a/.github/workflows/intentional-failure.yml", tofile="b/.github/workflows/intentional-failure.yml"))
+                result["proposed_patch"] = {"unified_diff":diff, "path":".github/workflows/intentional-failure.yml", "change":"Set env: {DEMO_REGION: us-east-1} on the configuration-check step.", "automatic_application":False}
     else:
         result["missing_evidence"] = ["A recognized error and corroborating configuration; no justified patch."]
     return result
