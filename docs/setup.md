@@ -12,7 +12,7 @@ terraform -chdir=infra/modules/private_bucket init -backend=false -input=false -
 python3 scripts/check.py --terraform
 ```
 
-Terraform downloads the pinned AWS provider from the public registry. Lockfiles include registry-signed package hashes. Generated-root tests reuse this locally installed provider. First use needs internet and adequate disk space. Mocked provider plugins still need permission to start processes/local sockets; some OS sandboxes deny this. Run the tests in a trusted local environment or the unprivileged GitHub runner, without cloud credentials.
+Terraform downloads the pinned AWS provider from the public registry. Lockfiles include registry-signed package hashes and content hashes for macOS ARM and Linux x64. Generated-root tests reuse this locally installed provider. First use needs internet and adequate disk space. Mocked provider plugins still need permission to start processes/local sockets; some OS sandboxes deny this. Run the tests in a trusted local environment or the unprivileged GitHub runner, without cloud credentials.
 
 The suite checks requests, generated-code scope, duplicates, subprocess limits, adapter failures, evidence boundaries, local branch creation, revision-bound authorization and mocked Terraform behavior. It does not test AWS provisioning or the optional credential-bearing Actions integration.
 

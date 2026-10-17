@@ -6,6 +6,7 @@ Consulted while building this repository on 2026-10-17. Product and hosted behav
 - [GitHub secure use reference](https://docs.github.com/en/actions/reference/security/secure-use): untrusted inputs and immutable action pinning.
 - [Terraform provider mocking](https://developer.hashicorp.com/terraform/language/tests/mocking): mocked tests, Terraform 1.7+.
 - [Terraform plan](https://developer.hashicorp.com/terraform/cli/commands/plan): provider execution and sensitive saved plans.
+- [Terraform dependency lockfile](https://developer.hashicorp.com/terraform/language/files/dependency-lock): platform-specific content hashes when reusing unpacked providers.
 - [Terraform S3 backend](https://developer.hashicorp.com/terraform/language/backend/s3): remote state encryption, versioning and lockfiles.
 - [OpenAI Codex structured repair-loop example](https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex): noninteractive `codex exec` and schema-constrained output. Local `codex exec --help` was checked for the installed 0.163.0 flags.
 

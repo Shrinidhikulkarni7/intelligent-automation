@@ -107,7 +107,7 @@ def publish(bundle, repo, *, source=ROOT, remote=False):
             if old and prs:
                 checked(["git", "fetch", "origin", f"refs/heads/{branch}"], clone)
                 code, content, _ = run(["git", "show", f"FETCH_HEAD:{path}"], cwd=clone)
-                changed = checked(["git", "diff", "--name-only", "HEAD^", "FETCH_HEAD"], clone).splitlines()
+                changed = checked(["git", "diff", "--name-only", "origin/main...FETCH_HEAD"], clone).splitlines()
                 if set(changed) - {path}:
                     raise Rejected("existing proposal contains unrelated edits; manual reconciliation required")
                 if code == 0 and json.loads(content) == value:

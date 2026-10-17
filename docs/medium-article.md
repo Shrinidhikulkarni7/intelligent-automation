@@ -82,6 +82,8 @@ The module defines the bucket, server-side AES256 encryption, all four public-ac
 
 The bundle contains the generated file, a sanitized report and a concise PR description. Publication clones the trusted source into a temporary directory, changes only the permitted configuration path and commits a stable proposal branch. Without `--remote`, it produces a portable Git branch bundle. With explicitly requested remote publication, it pushes and creates or updates the PR.
 
+The live-generated proposal is [PR #1](https://github.com/Shrinidhikulkarni7/intelligent-automation/pull/1); its diff contains only the new configuration file.
+
 The create example targets `dev/new-app`. The retention example uses a separate checked-in `dev/app` baseline. This avoids calling an unchanged existing configuration a successful resource-creation proposal. Neither configuration implies that a corresponding cloud resource already exists.
 
 ## Making repeated requests understandable
@@ -113,6 +115,8 @@ Mocking is important to the reproduction path. Terraform still loads a real pinn
 
 One test exposed a publication bug: the first implementation checked `git diff` before staging a new file, so a creation proposal appeared unchanged. I fixed publication to stage the allowed path and inspect the staged diff. That is the sort of integration error a successful model response would never reveal by itself.
 
+Hosted validation then exposed a second portability issue: the generated-root tests reused an unpacked provider, while the committed lockfile had only the macOS content hash. I added registry-verified Linux x64 checksums with `terraform providers lock -platform=darwin_arm64 -platform=linux_amd64`. The fix preserves checksum enforcement; it does not bypass the failing check.
+
 The first local Terraform attempt also failed because the surrounding process sandbox prevented the provider plugin from starting. Running the same mocked tests with appropriate local process access passed. That was a test-environment constraint, not an observed AWS failure.
 
 ## GitHub Actions and authorized execution
@@ -138,6 +142,8 @@ CONFIG_ERROR: DEMO_REGION must equal us-east-1
 ```
 
 The diagnosis cites `sanitized-log:L1`. That line establishes that the checker observed an absent or unequal value. It cannot distinguish those causes by itself. The inspected local workflow corroborates omission, permitting a proposed step-level environment change. A separate test verifies that `DEMO_REGION=us-east-1` makes the step pass.
+
+The [hosted intentional-failure run](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39005846380) also emitted this error. Its stored diagnosis cites `sanitized-log:L5`, preserves the selected commit, and leaves the patch unset because the log collector has not fetched that revision’s workflow configuration.
 
 The workflow remains intentionally broken so the example can be reproduced. The report does not automatically apply its fix.
 

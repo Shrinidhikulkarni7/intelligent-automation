@@ -1,0 +1,23 @@
+{
+  "confirmed": [
+    {
+      "evidence": [
+        "sanitized-log:L5"
+      ],
+      "finding": "The configuration check reported an absent or unequal DEMO_REGION."
+    }
+  ],
+  "evidence_digest": "c7a400cd86438c1b3dc1abb72bc9e24e2e9f2df8dff59f4e019414b7cc8af9f3",
+  "failed_stage": "configuration-check",
+  "missing_evidence": [
+    "The selected workflow file and environment at that run's revision."
+  ],
+  "next_check": "Read intentional-failure.yml and failing_check.py at the selected revision; verify the step environment.",
+  "proposed_patch": null,
+  "revision": "c68b702642032f4f44860ec82befa2e65b94c9fb",
+  "sanitized_log": "configuration-check\tconfiguration-check\t\ufeff2026-10-17T05:19:42.7632237Z ##[group]Run python3 examples/failing_check.py\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7633080Z ^[[36;1mpython3 examples/failing_check.py^[[0m\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7907192Z shell: /usr/bin/bash -e {0}\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7908247Z ##[endgroup]\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.8174318Z CONFIG_ERROR: DEMO_REGION must equal us-east-1\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.8227043Z ##[error]Process completed with exit code 2.",
+  "source": "github-run",
+  "suspected": [
+    "The step environment may omit DEMO_REGION; the log alone cannot distinguish missing from unequal."
+  ]
+}
