@@ -31,3 +31,4 @@ Hosted PR and workflow results are added here only after observing the actual ru
 - Both [create PR validation 39006092234](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006092234) and [retention PR validation 39006090795](https://github.com/Shrinidhikulkarni7/intelligent-automation/actions/runs/39006090795) passed.
 - [Retention PR #2](https://github.com/Shrinidhikulkarni7/intelligent-automation/pull/2) changes only the existing managed configuration path. Repeated publications returned `existing_pull_request` for both #1 and #2, without creating another PR.
 - Repository variable names were inspected: neither privileged opt-in variable was configured. No cloud or hosted agent-key workflow was enabled.
+- A later hosted run exposed a temporary Git pack-directory cleanup error. Automatic maintenance and detached GC are disabled for temporary publication clones and fixture repositories; current hosted checks must confirm the fix.

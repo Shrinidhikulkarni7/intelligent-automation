@@ -117,6 +117,8 @@ One test exposed a publication bug: the first implementation checked `git diff` 
 
 Hosted validation then exposed a second portability issue: the generated-root tests reused an unpacked provider, while the committed lockfile had only the macOS content hash. I added registry-verified Linux x64 checksums with `terraform providers lock -platform=darwin_arm64 -platform=linux_amd64`. The fix preserves checksum enforcement; it does not bypass the failing check.
 
+A later hosted run also hit a temporary Git pack-directory cleanup error. Short-lived clones and fixture repositories now disable automatic Git maintenance, preventing detached housekeeping from outliving their operation.
+
 The first local Terraform attempt also failed because the surrounding process sandbox prevented the provider plugin from starting. Running the same mocked tests with appropriate local process access passed. That was a test-environment constraint, not an observed AWS failure.
 
 ## GitHub Actions and authorized execution
