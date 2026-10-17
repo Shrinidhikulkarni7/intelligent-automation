@@ -9,6 +9,16 @@ Request → Proposed change → Pull request → Validation
 
 The agent authors configuration and explains its assumptions. Python controls scope, inputs, publication, locking and execution. An AI response cannot approve infrastructure access.
 
+## Watch the idea
+
+[▶ Watch: One request, from setup to cleanup](https://youtu.be/d58-kT3VGu0)
+
+A short film illustrating a conversational DevOps workflow—from requesting an environment through approval, deployment, verification and cleanup.
+
+Read the full article: [Building a Conversational Control Plane for DevOps](https://shrinidhikulkarni.vercel.app/writing/building-a-conversational-control-plane-for-devops).
+
+*The film illustrates the broader vision. This repository implements smaller, bounded examples rather than the complete system shown.*
+
 ## Start without credentials
 
 Requires macOS/Linux (or WSL), Python 3.11+, Git, and Terraform 1.7–1.x (verified with 1.16.4). There are no Python runtime dependencies. Run from the repository root:
@@ -42,5 +52,5 @@ This is a working reference with narrow examples, not a universal production pla
 - [Setup: demonstrations vs live integrations](docs/setup.md)
 - [Architecture and trust boundaries](docs/architecture.md)
 - [Agent adapter contract](docs/adapters.md)
-- [Medium article draft](docs/medium-article.md) — not published
+- [Published article](https://shrinidhikulkarni.vercel.app/writing/building-a-conversational-control-plane-for-devops)
 - [Sources](docs/sources.md)
