@@ -1,0 +1,24 @@
+name: Reusable credential-free validation
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '1.16.4'
+          terraform_wrapper: false
+      - name: Install pinned public provider without cloud credentials
+        run: terraform -chdir=infra/modules/private_bucket init -backend=false -input=false -lockfile=readonly
+      - name: Python policy checks and mocked Terraform tests
+        run: python3 scripts/check.py --terraform

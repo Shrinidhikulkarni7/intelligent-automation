@@ -1,0 +1,53 @@
+{
+  "assumptions": [],
+  "base_digest": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+  "branch": "proposal/dev-app-create",
+  "diagnostics": [
+    "Public no-cloud proposal; encryption and public-access blocking depend on the private_bucket module implementation."
+  ],
+  "proposal_digest": "f47baeba33b18529504702a309be8c3aa2ea0b8e65c74c85ca9a1a9401700e64",
+  "provenance": {
+    "adapter": "codex",
+    "attempts": 1,
+    "limits": {
+      "output_bytes": 48000,
+      "reasoning": "low",
+      "timeout_seconds_per_attempt": 90
+    },
+    "live": true
+  },
+  "request": {
+    "environment": "dev",
+    "operation": "create",
+    "resource": "app",
+    "retention_days": 7,
+    "text": "Create a private object-storage bucket for a development application, with encryption, public access blocked, and a 7-day lifecycle policy. Express labels through a local labels map, add a public Purpose tag for development uploads, and expose the bucket id as an output.",
+    "version": 1
+  },
+  "request_digest": "bc2ecab4e9c7f8035ec096d9935b98500fcc3d8315a093674f87de8033c27a9c",
+  "required_inputs": [],
+  "summary": {
+    "cloud_execution": "not performed",
+    "configuration_path": "infra/environments/dev-new/main.tf.json",
+    "controls": [
+      "AES256 encryption",
+      "four public-access blocks",
+      "bucket-owner enforced",
+      "prevent_destroy"
+    ],
+    "expected_resource_changes": [
+      "aws_s3_bucket.app",
+      "aws_s3_bucket_public_access_block.app",
+      "aws_s3_bucket_server_side_encryption_configuration.app",
+      "aws_s3_bucket_ownership_controls.app",
+      "aws_s3_bucket_lifecycle_configuration.app"
+    ],
+    "new_resources": true,
+    "operation": "create",
+    "retention_days": {
+      "after": 7,
+      "before": null
+    },
+    "target": "dev/new-app"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "locals": {
+    "labels": {
+      "Environment": "dev",
+      "ManagedBy": "reviewed-devops",
+      "Purpose": "development uploads"
+    }
+  },
+  "module": {
+    "app": {
+      "bucket_name": "reviewed-devops-example-new-app",
+      "retention_days": 7,
+      "source": "../../modules/private_bucket",
+      "tags": "${local.labels}"
+    }
+  },
+  "output": {
+    "bucket_id": {
+      "value": "${module.app.bucket_id}"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "confirmed": [
+    {
+      "evidence": [
+        "sanitized-log:L1"
+      ],
+      "finding": "The configuration check reported an absent or unequal DEMO_REGION."
+    },
+    {
+      "evidence": [
+        ".github/workflows/intentional-failure.yml",
+        "examples/failing_check.py",
+        "sanitized-log:L1"
+      ],
+      "finding": "The inspected local workflow omits DEMO_REGION; the local reproduction exited 2."
+    }
+  ],
+  "evidence_digest": "44d75c2c67ae9e0b9a068e8f70dec7677f2a530d7558f8f529423d5da067c5b0",
+  "failed_stage": "configuration-check",
+  "missing_evidence": [
+    "No hosted workflow run was inspected in this local reproduction."
+  ],
+  "next_check": "Read intentional-failure.yml and failing_check.py at the selected revision; verify the step environment.",
+  "proposed_patch": {
+    "automatic_application": false,
+    "change": "Set env: {DEMO_REGION: us-east-1} on the configuration-check step.",
+    "path": ".github/workflows/intentional-failure.yml"
+  },
+  "revision": "working-tree",
+  "sanitized_log": "CONFIG_ERROR: DEMO_REGION must equal us-east-1",
+  "source": "local-reproduction",
+  "suspected": [
+    "The step environment may omit DEMO_REGION; the log alone cannot distinguish missing from unequal."
+  ]
+}

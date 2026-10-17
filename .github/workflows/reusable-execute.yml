@@ -1,0 +1,99 @@
+name: Reusable authorized execution
+on:
+  workflow_call:
+    inputs:
+      target:
+        type: string
+        required: true
+      revision:
+        type: string
+        required: true
+      action:
+        type: string
+        required: true
+      authorization:
+        type: string
+        required: true
+      expected_plan:
+        type: string
+        required: false
+permissions: {}
+jobs:
+  execute:
+    if: github.ref == 'refs/heads/main' && vars.ENABLE_CLOUD_EXECUTION == 'true'
+    environment: ${{ inputs.action == 'apply' && 'cloud-apply' || 'cloud-plan' }}
+    concurrency:
+      group: reviewed-devops-dev
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '1.16.4'
+          terraform_wrapper: false
+      - name: Validate scope before requesting cloud identity
+        env:
+          TARGET: ${{ inputs.target }}
+          ACTION: ${{ inputs.action }}
+          REVISION: ${{ inputs.revision }}
+          AUTHORIZATION: ${{ inputs.authorization }}
+          ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
+          STATE_BUCKET: ${{ vars.STATE_BUCKET }}
+        run: |
+          python3 - <<'PY'
+          import os,re,subprocess
+          e=os.environ
+          assert e['TARGET'] in ('dev/app','dev/new-app')
+          assert e['ACTION'] in ('plan','apply')
+          assert re.fullmatch('[a-f0-9]{40}',e['REVISION'])
+          assert e['AUTHORIZATION'] == f"{e['ACTION']}:{e['TARGET']}:{e['REVISION']}"
+          assert re.fullmatch('[0-9]{12}',e['ACCOUNT'])
+          assert re.fullmatch('[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]',e['STATE_BUCKET'])
+          subprocess.run(['git','merge-base','--is-ancestor',e['REVISION'],'origin/main'],check=True)
+          PY
+      - uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c # v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+          allowed-account-ids: ${{ vars.AWS_ACCOUNT_ID }}
+          role-session-name: reviewed-devops
+          role-duration-seconds: 900
+      - name: Execute explicit reviewed revision
+        env:
+          REVIEWED_DEVOPS_LIVE: enabled
+          TARGET: ${{ inputs.target }}
+          ACTION: ${{ inputs.action }}
+          REVISION: ${{ inputs.revision }}
+          AUTHORIZATION: ${{ inputs.authorization }}
+          EXPECTED_PLAN: ${{ inputs.expected_plan }}
+          STATE_BUCKET: ${{ vars.STATE_BUCKET }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          from devops_agent.execution import execute
+          e=os.environ
+          backend=Path('.out/backend.hcl')
+          backend.parent.mkdir(exist_ok=True)
+          backend.write_text(f'bucket = "{e["STATE_BUCKET"]}"\nkey = "reviewed-devops/{e["TARGET"]}.tfstate"\nregion = "us-east-1"\nencrypt = true\nuse_lockfile = true\n')
+          execute(revision=e['REVISION'],target=e['TARGET'],action=e['ACTION'],backend=backend,authorization=e['AUTHORIZATION'],expected_plan=e['EXPECTED_PLAN'])
+          PY
+      - name: Publish only sanitized execution report
+        if: always()
+        run: python3 scripts/report.py .out/cloud-report.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: sanitized-execution-report
+          path: .out/cloud-report.json
+          if-no-files-found: ignore
+          retention-days: 7

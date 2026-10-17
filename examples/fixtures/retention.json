@@ -1,0 +1,11 @@
+{
+  "status": "proposed",
+  "terraform": "{\n  \"module\": {\n    \"app\": {\n      \"source\": \"../../modules/private_bucket\",\n      \"bucket_name\": \"reviewed-devops-example-app\",\n      \"retention_days\": 3,\n      \"tags\": {\n        \"Environment\": \"dev\",\n        \"ManagedBy\": \"reviewed-devops\"\n      }\n    }\n  }\n}",
+  "assumptions": [
+    "Public demonstration configuration; bucket name requires global uniqueness before live use."
+  ],
+  "required_inputs": [],
+  "diagnostics": [
+    "Deterministic CI fixture, not a live AI response."
+  ]
+}

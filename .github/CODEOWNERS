@@ -1,0 +1,5 @@
+# Owners should add an independent infrastructure reviewer and require code-owner
+# approval in branch rules before enabling any credential-bearing workflow.
+/infra/ @Shrinidhikulkarni7
+/devops_agent/ @Shrinidhikulkarni7
+/.github/ @Shrinidhikulkarni7

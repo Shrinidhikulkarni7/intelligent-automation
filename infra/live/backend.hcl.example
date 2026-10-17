@@ -1,0 +1,6 @@
+# Create separately; never commit credentials. Bucket must already exist.
+bucket       = "REPLACE-WITH-PRIVATE-STATE-BUCKET"
+key          = "reviewed-devops/dev/app.tfstate"
+region       = "us-east-1"
+encrypt      = true
+use_lockfile = true

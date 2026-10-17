@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.out/
+.terraform/
+*.tfstate*
+*.tfplan
+*.plan
+.env
+*.auto.tfvars*
+infra/live/backend.hcl

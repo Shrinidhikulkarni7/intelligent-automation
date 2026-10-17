@@ -1,0 +1,9 @@
+{
+  "conclusion": "failure",
+  "exit_code": 2,
+  "logs": "CONFIG_ERROR: DEMO_REGION must equal us-east-1",
+  "revision": "working-tree",
+  "source": "local-reproduction",
+  "stage": "configuration-check",
+  "workflow": "intentional-failure.yml"
+}

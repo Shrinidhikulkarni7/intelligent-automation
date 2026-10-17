@@ -1,0 +1,30 @@
+name: Reusable evidence collection and diagnosis
+on:
+  workflow_call:
+    inputs:
+      run_id:
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Collect bounded selected failed-run evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ inputs.run_id }}
+        run: python3 -m devops_agent.cli collect --repo "$REPO" --run "$RUN_ID" --out .out/failure.json
+      - name: Diagnose without executing a fix
+        run: python3 -m devops_agent.cli diagnose .out/failure.json --out .out/diagnosis.json
+      - name: Report sanitized evidence and uncertainty
+        run: python3 scripts/report.py .out/diagnosis.json

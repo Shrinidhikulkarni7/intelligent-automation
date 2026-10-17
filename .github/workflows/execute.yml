@@ -1,0 +1,37 @@
+name: Authorized infrastructure execution
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        options: [dev/app, dev/new-app]
+        required: true
+      revision:
+        description: Full reviewed and merged commit SHA
+        type: string
+        required: true
+      action:
+        type: choice
+        options: [plan, apply]
+        required: true
+      authorization:
+        description: 'Exact action:target:revision authorization'
+        type: string
+        required: true
+      expected_plan:
+        description: Reviewed prior plan digest, required for apply
+        type: string
+        required: false
+permissions: {}
+jobs:
+  execute:
+    uses: ./.github/workflows/reusable-execute.yml
+    with:
+      target: ${{ inputs.target }}
+      revision: ${{ inputs.revision }}
+      action: ${{ inputs.action }}
+      authorization: ${{ inputs.authorization }}
+      expected_plan: ${{ inputs.expected_plan }}
+    permissions:
+      contents: read
+      id-token: write

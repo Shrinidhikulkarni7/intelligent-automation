@@ -1,0 +1,19 @@
+name: Propose with configured agent
+on:
+  workflow_dispatch:
+    inputs:
+      example:
+        type: choice
+        options: [create, retention]
+        required: true
+permissions: {}
+jobs:
+  propose:
+    uses: ./.github/workflows/reusable-propose.yml
+    with:
+      example: ${{ inputs.example }}
+    secrets:
+      agent_key: ${{ secrets.AGENT_API_KEY }}
+    permissions:
+      contents: write
+      pull-requests: write

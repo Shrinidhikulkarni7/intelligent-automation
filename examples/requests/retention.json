@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "operation": "retention",
+  "environment": "dev",
+  "resource": "app",
+  "retention_days": 3,
+  "text": "Change this development resource's retention period from seven days to three days."
+}

@@ -1,0 +1,4 @@
+# Installed ONLY by the authorized execution command, never by demonstration checks.
+terraform {
+  backend "s3" {}
+}

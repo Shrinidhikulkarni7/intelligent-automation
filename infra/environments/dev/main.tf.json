@@ -1,0 +1,13 @@
+{
+  "module": {
+    "app": {
+      "source": "../../modules/private_bucket",
+      "bucket_name": "reviewed-devops-example-app",
+      "retention_days": 7,
+      "tags": {
+        "Environment": "dev",
+        "ManagedBy": "reviewed-devops"
+      }
+    }
+  }
+}

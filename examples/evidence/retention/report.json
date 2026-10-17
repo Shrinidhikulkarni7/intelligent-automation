@@ -1,0 +1,46 @@
+{
+  "assumptions": [
+    "Public demonstration configuration; bucket name requires global uniqueness before live use."
+  ],
+  "base_digest": "c587c7f9c69e7cf8fb3d7594fcad3c505385cc3e21358f08cdd587dfd5405db9",
+  "branch": "proposal/dev-app-retention",
+  "diagnostics": [
+    "Deterministic CI fixture, not a live AI response."
+  ],
+  "proposal_digest": "9a6911074a7a911f68171c9cbb8da5f7b10f4f30d24f6a1ea75e19c24a4d28dc",
+  "provenance": {
+    "adapter": "fixture",
+    "attempts": 0,
+    "live": false
+  },
+  "request": {
+    "environment": "dev",
+    "operation": "retention",
+    "resource": "app",
+    "retention_days": 3,
+    "text": "Change this development resource's retention period from seven days to three days.",
+    "version": 1
+  },
+  "request_digest": "afbc69cedf6c866e1f24e22dfe5ceab2a99c32f80ad077bc050bb805691b1420",
+  "required_inputs": [],
+  "summary": {
+    "cloud_execution": "not performed",
+    "configuration_path": "infra/environments/dev/main.tf.json",
+    "controls": [
+      "AES256 encryption",
+      "four public-access blocks",
+      "bucket-owner enforced",
+      "prevent_destroy"
+    ],
+    "expected_resource_changes": [
+      "aws_s3_bucket_lifecycle_configuration.app: expiration days only"
+    ],
+    "new_resources": false,
+    "operation": "retention",
+    "retention_days": {
+      "after": 3,
+      "before": 7
+    },
+    "target": "dev/app"
+  }
+}

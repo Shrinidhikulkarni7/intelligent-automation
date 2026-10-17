@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools==75.8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reviewed-devops"
+version = "0.1.0"
+description = "Bounded agent proposals, reviewed changes, and explicit execution"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+reviewed-devops = "devops_agent.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["devops_agent*"]

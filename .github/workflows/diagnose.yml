@@ -1,0 +1,19 @@
+name: Diagnose selected public workflow run
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Completed failed run in this public repository
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    uses: ./.github/workflows/reusable-diagnose.yml
+    with:
+      run_id: ${{ inputs.run_id }}
+    permissions:
+      contents: read
+      actions: read

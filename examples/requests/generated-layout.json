@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "operation": "create",
+  "environment": "dev",
+  "resource": "app",
+  "retention_days": 7,
+  "text": "Create a private object-storage bucket for a development application, with encryption, public access blocked, and a 7-day lifecycle policy. Express labels through a local labels map, add a public Purpose tag for development uploads, and expose the bucket id as an output."
+}

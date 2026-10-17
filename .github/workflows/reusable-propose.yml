@@ -1,0 +1,54 @@
+name: Reusable proposal generation
+on:
+  workflow_call:
+    inputs:
+      example:
+        type: string
+        required: true
+    secrets:
+      agent_key:
+        required: false
+permissions: {}
+jobs:
+  propose:
+    if: github.ref == 'refs/heads/main' && vars.ENABLE_AGENT_PROPOSALS == 'true'
+    environment: agent-proposals
+    concurrency:
+      group: reviewed-devops-dev
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check explicit integration configuration
+        env:
+          AGENT_KEY: ${{ secrets.agent_key }}
+          EXAMPLE: ${{ inputs.example }}
+        run: |
+          test -n "$AGENT_KEY" || { echo 'integration not configured: AGENT_API_KEY required'; exit 2; }
+          case "$EXAMPLE" in create|retention) ;; *) exit 2 ;; esac
+      - name: Install pinned Codex CLI
+        run: npm install --global --ignore-scripts @openai/codex@0.163.0
+      - name: Generate a bounded public proposal
+        env:
+          CODEX_API_KEY: ${{ secrets.agent_key }}
+          EXAMPLE: ${{ inputs.example }}
+        run: python3 -m devops_agent.cli propose --request "examples/requests/$EXAMPLE.json" --adapter codex --timeout 90
+      - name: Create or update proposal PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EXAMPLE: ${{ inputs.example }}
+        run: |
+          gh auth setup-git --hostname github.com
+          python3 -m devops_agent.cli publish ".out/dev-app-$EXAMPLE" --repo "$REPO" --remote
+      - name: Explain check authorization
+        run: |
+          echo 'Inspect the proposal PR checks. GITHUB_TOKEN PR events can require a maintainer to approve workflow runs. Do not merge without validation.' >> "$GITHUB_STEP_SUMMARY"
