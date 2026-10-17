@@ -163,7 +163,7 @@ class Proposals(unittest.TestCase):
             baseline['module']['app']['retention_days']=7
             (repo/TARGET).write_text(canonical(baseline))
             (repo/'infra/environments/dev-new/main.tf.json').unlink(missing_ok=True)
-            def git(*args): return subprocess.run(['git',*args],cwd=repo,check=True,capture_output=True,text=True).stdout.strip()
+            def git(*args): return subprocess.run(['git','-c','maintenance.auto=false','-c','gc.auto=0','-c','gc.autoDetach=false',*args],cwd=repo,check=True,capture_output=True,text=True).stdout.strip()
             git('init','-b','main');git('config','user.email','test@example.com');git('config','user.name','Test');git('add','.');git('commit','-m','baseline')
             before=git('rev-parse','HEAD')
             for operation in ('create','retention'):

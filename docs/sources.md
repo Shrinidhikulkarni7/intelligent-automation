@@ -2,6 +2,7 @@
 
 Consulted while building this repository on 2026-10-17. Product and hosted behavior can change; check your deployed versions.
 
+- [Git configuration](https://git-scm.com/docs/git-config): automatic maintenance and detached GC behavior for short-lived repositories.
 - [GitHub workflow triggers](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow): GITHUB_TOKEN event behavior, approval-required PR checks, manual dispatch.
 - [GitHub secure use reference](https://docs.github.com/en/actions/reference/security/secure-use): untrusted inputs and immutable action pinning.
 - [Terraform provider mocking](https://developer.hashicorp.com/terraform/language/tests/mocking): mocked tests, Terraform 1.7+.
