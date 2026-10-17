@@ -12,8 +12,9 @@ MAX_LOG = 24_000
 
 
 def sanitize(raw):
-    raw = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", raw)
-    raw = re.sub(r"(?i)(?:Bearer\s+\S+|(?:token|password|secret|api_key)\s*[:=]\s*\S+|AKIA[A-Z0-9]{16}|gh[pousr]_[A-Za-z0-9_]{15,})", "[REDACTED]", raw)
+    raw = re.sub(r"(?:\x1b|\^\[)\[[0-9;]*[A-Za-z]", "", raw)
+    raw = re.sub(r"-----BEGIN [^-]*PRIVATE KEY-----.*?-----END [^-]*PRIVATE KEY-----", "[KEY REDACTED]", raw, flags=re.S)
+    raw = re.sub(r"(?i)(?:Bearer\s+\S+|(?:[A-Za-z0-9_]*(?:token|password|secret|api[_-]?key|access[_-]?key)[A-Za-z0-9_-]*)\s*[:=]\s*\S+|AKIA[A-Z0-9]{16}|github_pat_[A-Za-z0-9_]{15,}|gh[pousr]_[A-Za-z0-9_]{15,})", "[REDACTED]", raw)
     raw = re.sub(r"https?://\S+", "[URL REDACTED]", raw)
     raw = re.sub(r"(?:/Users|/home)/[^\s:]+", "[PATH REDACTED]", raw)
     return "\n".join(line[:1000] for line in raw.splitlines()[:200])

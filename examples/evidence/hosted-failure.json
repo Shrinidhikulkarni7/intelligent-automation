@@ -1,6 +1,6 @@
 {
   "conclusion": "failure",
-  "logs": "configuration-check\tconfiguration-check\t\ufeff2026-10-17T05:19:42.7632237Z ##[group]Run python3 examples/failing_check.py\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7633080Z ^[[36;1mpython3 examples/failing_check.py^[[0m\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7907192Z shell: /usr/bin/bash -e {0}\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7908247Z ##[endgroup]\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.8174318Z CONFIG_ERROR: DEMO_REGION must equal us-east-1\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.8227043Z ##[error]Process completed with exit code 2.",
+  "logs": "configuration-check\tconfiguration-check\t\ufeff2026-10-17T05:19:42.7632237Z ##[group]Run python3 examples/failing_check.py\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7633080Z python3 examples/failing_check.py\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7907192Z shell: /usr/bin/bash -e {0}\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.7908247Z ##[endgroup]\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.8174318Z CONFIG_ERROR: DEMO_REGION must equal us-east-1\nconfiguration-check\tconfiguration-check\t2026-10-17T05:19:42.8227043Z ##[error]Process completed with exit code 2.",
   "repository": "Shrinidhikulkarni7/intelligent-automation",
   "revision": "c68b702642032f4f44860ec82befa2e65b94c9fb",
   "run_id": "39005846380",

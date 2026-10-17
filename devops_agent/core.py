@@ -57,7 +57,7 @@ def safe_text(text, limit=1000):
     if not isinstance(text, str) or len(text) > limit or any(ord(c) < 32 and c != '\n' for c in text):
         raise Rejected("invalid text")
     # Defense in depth; not a general secret detector. Only public input is allowed.
-    if re.search(r"(?i)(AKIA[A-Z0-9]{16}|gh[pousr]_[A-Za-z0-9_]{15,}|-----BEGIN .*PRIVATE KEY|(?:token|password|secret|api_key)\s*[:=]\s*\S+|https?://)", text):
+    if re.search(r"(?i)(AKIA[A-Z0-9]{16}|(?:gh[pousr]_|github_pat_)[A-Za-z0-9_]{15,}|-----BEGIN .*PRIVATE KEY|(?:[A-Za-z0-9_]*(?:token|password|secret|api[_-]?key|access[_-]?key)[A-Za-z0-9_-]*)\s*[:=]\s*\S+|https?://)", text):
         raise Rejected("possible credential or URL: use public, secret-free input")
     return text
 
