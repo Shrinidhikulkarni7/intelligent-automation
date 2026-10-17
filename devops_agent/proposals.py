@@ -48,6 +48,9 @@ def pr_body(report):
 
 
 def checked(argv, cwd, **kwargs):
+    if argv[0] == "git":
+        # Temporary clones must not leave detached maintenance processes writing during cleanup.
+        argv = ["git", "-c", "maintenance.auto=false", "-c", "gc.auto=0", "-c", "gc.autoDetach=false", *argv[1:]]
     code, stdout, _ = run(argv, cwd=cwd, **kwargs)
     if code:
         raise Rejected(f"{argv[0]} operation failed; inspect locally without publishing raw output")
