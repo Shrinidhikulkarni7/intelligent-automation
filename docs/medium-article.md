@@ -107,7 +107,7 @@ A proposal that also changes tags, identity or module source fails. The report s
 
 ## What validation actually establishes
 
-The [credential-free check command](https://github.com/Shrinidhikulkarni7/intelligent-automation/blob/main/scripts/check.py) runs Python tests, formats Terraform, validates generated roots and executes mocked-provider tests. The verified local run passed thirty-six Python tests and six Terraform test runs: three module scenarios and one generated-root run for each fixture plus the recorded live proposal.
+The [credential-free check command](https://github.com/Shrinidhikulkarni7/intelligent-automation/blob/main/scripts/check.py) runs Python tests, formats Terraform, validates generated roots and executes mocked-provider tests. The verified local run passed thirty-six Python tests and seven mocked Terraform runs: three module scenarios, three generated roots including the recorded live proposal, and the actual checked-in development root. A create PR also tests its new checked-in root.
 
 The module tests assert public-access blocks, encryption, owner enforcement, expiration at seven and three days, and rejection of zero-day retention. The Python tests cover invalid scope, incomplete text, extra fields, unsafe generated blocks, unrelated updates, duplicates, subprocess limits, adapter failures, evidence handling and explicit authorization gates.
 

@@ -191,6 +191,7 @@ class Diagnosis(unittest.TestCase):
             self.assertEqual(evidence['exit_code'],2)
             self.assertEqual(len(result['confirmed']),2)
             self.assertIsNotNone(result['proposed_patch'])
+            self.assertEqual(run(['git','apply','--check','-'],cwd=ROOT,data=result['proposed_patch']['unified_diff'])[0],0)
             self.assertIn('sanitized-log:L1',result['confirmed'][0]['evidence'])
 
     def test_unknown_failure_has_no_invented_fix(self):
