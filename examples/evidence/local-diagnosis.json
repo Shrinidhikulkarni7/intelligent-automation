@@ -24,7 +24,8 @@
   "proposed_patch": {
     "automatic_application": false,
     "change": "Set env: {DEMO_REGION: us-east-1} on the configuration-check step.",
-    "path": ".github/workflows/intentional-failure.yml"
+    "path": ".github/workflows/intentional-failure.yml",
+    "unified_diff": "--- a/.github/workflows/intentional-failure.yml\n+++ b/.github/workflows/intentional-failure.yml\n@@ -12,4 +12,6 @@\n         with:\n           persist-credentials: false\n       - name: configuration-check\n+        env:\n+          DEMO_REGION: us-east-1\n         run: python3 examples/failing_check.py\n"
   },
   "revision": "working-tree",
   "sanitized_log": "CONFIG_ERROR: DEMO_REGION must equal us-east-1",
