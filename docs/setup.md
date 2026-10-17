@@ -20,7 +20,7 @@ The suite checks requests, generated-code scope, duplicates, subprocess limits, 
 
 Install Codex CLI 0.163.0 using the upstream installation instructions and authenticate your own account. `codex login status` must succeed. Use `--adapter codex` explicitly. Missing credentials never select a fixture. Inference may consume your account's allowance; set provider-side limits and the CLI timeout/attempt/output settings described in [adapters](adapters.md).
 
-For public GitHub publication, authenticate `gh` only to github.com, configure Git HTTPS auth and use your public repository's owner/name. Remote main must match the trusted source checkout. `publish` without `--remote` is local. Remote publication requires contents write and pull-request write. It never merges the PR.
+For public GitHub publication, authenticate `gh` only to github.com, configure Git HTTPS auth and use your public repository's owner/name. Configure your own Git `user.name` and GitHub-linked `user.email` in the source checkout; proposal commits inherit that identity. The optional Actions workflow attributes commits to the dispatching actor. Remote main must match the trusted source checkout. `publish` without `--remote` is local. Remote publication requires contents write and pull-request write. It never merges the PR.
 
 ## Optional Actions agent integration — disabled
 

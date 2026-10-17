@@ -86,8 +86,12 @@ def publish(bundle, repo, *, source=ROOT, remote=False):
             checked(["git", "add", "--", path], clone)
             if not checked(["git", "diff", "--cached", "--name-only"], clone):
                 return {"status": "already_satisfied", "branch": branch}
-            checked(["git", "config", "user.name", "Reviewed DevOps"], clone)
-            checked(["git", "config", "user.email", "reviewed-devops@users.noreply.github.com"], clone)
+            # Preserve the caller's configured identity; never invent an author.
+            for setting in ("user.name", "user.email"):
+                identity = checked(["git", "config", "--get", setting], Path(source).resolve())
+                if not identity or "\n" in identity or "\r" in identity:
+                    raise Rejected("configure a valid Git user.name and user.email before publication")
+                checked(["git", "config", setting, identity], clone)
             checked(["git", "add", "--", path], clone)
             checked(["git", "commit", "--quiet", "-m", f"Propose {req['operation']} for {report['summary']['target']}"], clone)
             sha = checked(["git", "rev-parse", "HEAD"], clone)

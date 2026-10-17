@@ -173,6 +173,7 @@ class Proposals(unittest.TestCase):
                 self.assertTrue((bundle/'branch.bundle').exists())
                 self.assertEqual(git('rev-parse','HEAD'),before)
                 git('fetch',str(bundle/'branch.bundle'),result['branch'])
+                self.assertEqual(git('show','-s','--format=%an <%ae>|%cn <%ce>','FETCH_HEAD'),'Test <test@example.com>|Test <test@example.com>')
                 names=git('diff','--name-only','HEAD','FETCH_HEAD').splitlines()
                 self.assertEqual(names,['infra/environments/dev-new/main.tf.json' if operation=='create' else TARGET])
 

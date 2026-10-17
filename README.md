@@ -1,4 +1,4 @@
-# Reviewed DevOps
+# Intelligent Automation
 
 A personal, public reference project for turning a plain-language DevOps request into a bounded proposal, a pull request, validation, and explicitly authorized execution.
 

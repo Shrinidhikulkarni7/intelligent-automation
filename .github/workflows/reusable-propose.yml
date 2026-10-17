@@ -47,6 +47,8 @@ jobs:
           REPO: ${{ github.repository }}
           EXAMPLE: ${{ inputs.example }}
         run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
           gh auth setup-git --hostname github.com
           python3 -m devops_agent.cli publish ".out/dev-app-$EXAMPLE" --repo "$REPO" --remote
       - name: Explain check authorization

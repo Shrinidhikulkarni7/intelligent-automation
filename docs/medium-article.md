@@ -4,7 +4,7 @@
 
 A request such as “create a private development bucket” looks small because the desired outcome fits in one sentence. The engineering work does not. Someone must resolve missing inputs, select an infrastructure pattern, explain the proposed resources, review the change, run checks, authorize execution, and establish what actually happened.
 
-I built [Reviewed DevOps](https://github.com/Shrinidhikulkarni7/intelligent-automation) as a personal reference implementation of that chain. Its purpose is concrete: let a coding agent help author a change while keeping permission decisions in ordinary code and review controls.
+I built [Intelligent Automation](https://github.com/Shrinidhikulkarni7/intelligent-automation) as a personal reference implementation of that chain. Its purpose is concrete: let a coding agent help author a change while keeping permission decisions in ordinary code and review controls.
 
 The repository has three examples: a private encrypted object-storage bucket proposal, a diagnosis of an intentionally failed workflow, and a retention change from seven days to three. It uses native GitHub branches, pull requests, checks, summaries and artifacts. There is no separate service or database to operate.
 
